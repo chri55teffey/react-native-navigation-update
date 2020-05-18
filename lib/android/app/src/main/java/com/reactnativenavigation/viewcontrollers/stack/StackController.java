@@ -26,6 +26,7 @@ import com.reactnativenavigation.views.StackLayout;
 import com.reactnativenavigation.views.stack.StackBehaviour;
 import com.reactnativenavigation.views.topbar.TopBar;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -214,6 +215,7 @@ public class StackController extends ParentController<StackLayout> {
                             backButtonHelper.addToPushedChild(children.get(i));
                         }
                     }
+                    startChildrenBellowTopChild();
                 }
                 listener.onSuccess(childId);
             }
@@ -360,8 +362,16 @@ public class StackController extends ParentController<StackLayout> {
         if (isEmpty()) return;
         ViewGroup child = peek().getView();
         child.setId(CompatUtils.generateViewId());
+        peek().addOnAppearedListener(this::startChildrenBellowTopChild);
         presenter.applyInitialChildLayoutOptions(resolveCurrentOptions());
         stackLayout.addView(child, 0, matchParentWithBehaviour(new StackBehaviour(this)));
+    }
+
+    private void startChildrenBellowTopChild() {
+        ArrayList<ViewController> children = new ArrayList(getChildControllers());
+        for (int i = children.size() - 2; i >= 0; i--) {
+            children.get(i).start();
+        }
     }
 
     private void onNavigationButtonPressed(String buttonId) {
