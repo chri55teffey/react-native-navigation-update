@@ -1,4 +1,9 @@
 # Changelog
+# 6.7.3
+## Fixed
+### iOS
+* Restore bottomTabs visibility when needed [#80eb489](https://github.com/wix/react-native-navigation/commit/80eb4893ef2c86c2e20480c61c03fc2dc99979f1) by [yogevbd](https://github.com/yogevbd)
+
 # 6.7.2
 ## Fixed
 ### iOS
