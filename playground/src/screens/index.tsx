@@ -122,6 +122,14 @@ function registerScreens() {
     'navigation.playground.KeyboardScreen',
     () => require('./KeyboardScreen').default
   );
+  Navigation.setLazyComponentRegistrator((componentName) => {
+    if (componentName === Screens.LazilyRegisteredScreen) {
+      Navigation.registerComponent(
+        Screens.LazilyRegisteredScreen,
+        () => require('./LazilyRegisteredScreen').default
+      );
+    }
+  });
 }
 
 export { registerScreens };
