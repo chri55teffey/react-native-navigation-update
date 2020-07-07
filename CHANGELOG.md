@@ -1,6 +1,6 @@
 # Changelog
 
-# 3.9.0
+# 6.9.0
 
 ## Added
 
