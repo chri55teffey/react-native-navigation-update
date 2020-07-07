@@ -1,5 +1,23 @@
 # Changelog
 
+# 3.9.0
+
+## Added
+
+- Introduced a new API to lazily register components [#81c0f87](https://github.com/wix/react-native-navigation/commit/81c0f8715f194670865e239ab6539c595b441924) by [yedidyak](https://github.com/yedidyak)
+
+## Fixed
+
+### Android
+
+- Emit componentDidAppear after appear animation completes [#b9310bf](https://github.com/wix/react-native-navigation/commit/b9310bf7545d1c15b2f716a98aaab3eb34b4b504) by [guyca](https://github.com/guyca)
+- Fix overflow menu item text color affected by `button.color` option [#2f0095f](https://github.com/wix/react-native-navigation/commit/2f0095fa238cb3f7109fa1756da1593be0ec2d3d) by [guyca](https://github.com/guyca)
+
+### iOS
+
+- Fix incorrect SideMenu dimensions after orientation change [#22444b1](https://github.com/wix/react-native-navigation/commit/22444b1fc27f0dcf1a59885ec5f5656b241790c6) by [yogevbd](https://github.com/yogevbd)
+- Fix back button testID option not being applied [#9676e9c](https://github.com/wix/react-native-navigation/commit/9676e9cd7895fa76c6c30254068038f1de720109) by [yogevbd](https://github.com/yogevbd)
+
 # 6.8.0
 
 ## Added
