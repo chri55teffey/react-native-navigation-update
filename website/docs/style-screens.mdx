@@ -7,7 +7,7 @@ sidebar_label: Options
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-A Screen's look and feel is configured with an [Options]() object. Options can be applied to screens in three ways. Each method of applying options has benefits and draw backs which are important be aware of so we can use the right tool for the job.
+A Screen's look and feel is configured with an [Options](../api/options-root) object. Options can be applied to screens in three ways. Each method of applying options has benefits and draw backs which are important be aware of so we can use the right tool for the job.
 
 ## Command options
 
@@ -184,7 +184,7 @@ Navigation.mergeOptions(this.props.componentId, {
 **Avoid using mergeOptions in a screen's constructor or in componentDidMount!**
 :::
 
-When a screen first appears, it's `constructor` and `componentDidMount` functions are called followed by a `componentDidAppear` event. (read more about screen lifecycle [here](screen-lifecycle)).
+When a screen first appears, it's `constructor` and `componentDidMount` functions are called followed by a `componentDidAppear` event. (read more about screen lifecycle [here](docs-screen-lifecycle.mdx)).
 
 Developers might be tempted to call `mergeOptions` in constructor or componentDidMount to update options. Calling `mergeOptions` before the `componentDidAppear` event has been received has two very negative effects:
 
