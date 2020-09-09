@@ -63,7 +63,7 @@ No Change needed 🥳
 
 - Fix options not being applied on large title [#e845afe](https://github.com/wix/react-native-navigation/commit/e845afecaeea16dc92ef2461038079eab1e09a6f) by [yogevbd](https://github.com/yogevbd)
 - Fix crash after calling setStackRoot and pressing the back button [#8a7d34b](https://github.com/wix/react-native-navigation/commit/8a7d34b22a1226cab7ad03e58a858d2ab4ea43fb) by [yogevbd](https://github.com/yogevbd)
-- Initialize UIWindow only if needed [#e5cc0c3](https://github.com/wix/react-native-navigation/commit/e5cc0c3594b495f89b4912f2019be8fec2499fcd)
+- Initialize UIWindow only if needed [#e5cc0c3](https://github.com/wix/react-native-navigation/commit/e5cc0c3594b495f89b4912f2019be8fec2499fcd) by [danilobuerger](https://github.com/danilobuerger)
 - Change default modalPresentationStyle from overFullScreen to fullScreen on iOS 12 and below [#0869fd0](https://github.com/wix/react-native-navigation/commit/0869fd0197a621123ae16e183965dd05fdf4521d) by [danilobuerger](https://github.com/danilobuerger)
 - Don't crash if specified Shared Element ID could not be found/invalid nativeID has been set [#fcf23d2](https://github.com/wix/react-native-navigation/commit/fcf23d2e283e4031767864f6360051d9326c2475) by [mrousavy](https://github.com/mrousavy)
 - Fix edge case where title wasn't visible if subtitle was also declared [#1878393](https://github.com/wix/react-native-navigation/commit/1878393eb05d42bbb2099567a55cc35d6fc61595) by [yogevbd](https://github.com/yogevbd)
