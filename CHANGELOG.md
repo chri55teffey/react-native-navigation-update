@@ -70,7 +70,7 @@ No Change needed 🥳
 - Fix Bicolor status bar disappears on setRoot [#83a5afa](https://github.com/wix/react-native-navigation/commit/83a5afa84b3ed79284a1c28c4634506d0641df02) by [yogevbd](https://github.com/yogevbd)
 - Remove obsolete bootstrap methods [#5c5ec9e](https://github.com/wix/react-native-navigation/commit/5c5ec9e04901b5825953e6c9e3bcb587a45984cd), [#8d9e358](https://github.com/wix/react-native-navigation/commit/8d9e35895712d8c5f6685a6f92c93429246ebb96) by [danilobuerger](https://github.com/danilobuerger)
 - Support fade animation in setRoot [#acc7f12](https://github.com/wix/react-native-navigation/commit/acc7f1276803d6bdb7fa5e1affc9f958d9923466) by [yogevbd](https://github.com/yogevbd)
-- Properly resolve fontFamily and fontWeight [#a3e8189](https://github.com/wix/react-native-navigation/commit/a3e8189d3725a292277c138a3da234b7864fc131)
+- Properly resolve fontFamily and fontWeight [#a3e8189](https://github.com/wix/react-native-navigation/commit/a3e8189d3725a292277c138a3da234b7864fc131) by [yogevbd](https://github.com/yogevbd)
 - Fix crash when navigating to a screen without a TopBar title text from a screen with LargeTitle [#0c9c996](https://github.com/wix/react-native-navigation/commit/0c9c99691909c292f69aca16738a0aba97630e5c) by [mateioprea](https://github.com/mateioprea)
 - Fix border being visible when LargeTitle is used even though `noBorder:true` was specified [#29365dc](https://github.com/wix/react-native-navigation/commit/29365dc86d92f7de2bf94231b0d59d3e2bf6c073) by [mateioprea](https://github.com/mateioprea)
 
