@@ -59,7 +59,7 @@
         BOOL hideNavBarOnFocusSearchBar = [withDefault.topBar.hideNavBarOnFocusSearchBar getWithDefaultValue:YES];
         BOOL searchBarHiddenWhenScrolling = [withDefault.topBar.searchBarHiddenWhenScrolling getWithDefaultValue:NO];
         
-        [viewController setSearchBarWithPlaceholder:[withDefault.topBar.searchBarPlaceholder getWithDefaultValue:@""] hideNavBarOnFocusSearchBar:hideNavBarOnFocusSearchBar searchBarHiddenWhenScrolling:searchBarHiddenWhenScrolling];
+        [viewController setSearchBarWithPlaceholder:[withDefault.topBar.searchBarPlaceholder getWithDefaultValue:@""] hideNavBarOnFocusSearchBar:hideNavBarOnFocusSearchBar searchBarHiddenWhenScrolling:searchBarHiddenWhenScrolling backgroundColor:[options.topBar.searchBarBackgroundColor getWithDefaultValue:nil] tintColor:[options.topBar.searchBarTintColor getWithDefaultValue:nil]];
     }
     
     [_topBarTitlePresenter applyOptions:withDefault.topBar];
@@ -95,7 +95,7 @@
         BOOL hideNavBarOnFocusSearchBar = [withDefault.topBar.hideNavBarOnFocusSearchBar getWithDefaultValue:YES];
         BOOL searchBarHiddenWhenScrolling = [withDefault.topBar.searchBarHiddenWhenScrolling getWithDefaultValue:NO];
         
-        [viewController setSearchBarWithPlaceholder:[options.topBar.searchBarPlaceholder getWithDefaultValue:@""] hideNavBarOnFocusSearchBar:hideNavBarOnFocusSearchBar searchBarHiddenWhenScrolling:searchBarHiddenWhenScrolling];
+        [viewController setSearchBarWithPlaceholder:[options.topBar.searchBarPlaceholder getWithDefaultValue:@""] hideNavBarOnFocusSearchBar:hideNavBarOnFocusSearchBar searchBarHiddenWhenScrolling:searchBarHiddenWhenScrolling backgroundColor:[options.topBar.searchBarBackgroundColor getWithDefaultValue:nil] tintColor:[options.topBar.searchBarTintColor getWithDefaultValue:nil]];
     }
 
     if (options.topBar.drawBehind.hasValue) {

@@ -8,7 +8,11 @@
 
 - (void)setBackgroundImage:(UIImage *)backgroundImage;
 
-- (void)setSearchBarWithPlaceholder:(NSString *)placeholder hideNavBarOnFocusSearchBar:(BOOL)hideNavBarOnFocusSearchBar searchBarHiddenWhenScrolling:(BOOL)searchBarHiddenWhenScrolling;
+- (void)setSearchBarWithPlaceholder:(NSString *)placeholder
+         hideNavBarOnFocusSearchBar:(BOOL)hideNavBarOnFocusSearchBar
+       searchBarHiddenWhenScrolling:(BOOL)searchBarHiddenWhenScrolling
+                    backgroundColor:(nullable UIColor *)backgroundColor
+                          tintColor:(nullable UIColor *)tintColor;
 
 - (void)setSearchBarHiddenWhenScrolling:(BOOL)searchBarHidden;
 
