@@ -19,8 +19,8 @@ const STORY_SIZE = 60;
 
 const CarsListScreen: NavigationFunctionComponent = ({ componentId }) => {
   const onCarPressed = useCallback(
-    async (car: CarItem) => {
-      const navigationAnimations = await buildSharedElementAnimations(car);
+    (car: CarItem) => {
+      const navigationAnimations = buildSharedElementAnimations(car);
       Navigation.push(componentId, {
         component: {
           name: Screens.CarDetailsScreen,
