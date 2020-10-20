@@ -255,6 +255,7 @@
 
 - (void)setWaitForRender:(BOOL)waitForRender {
     objc_setAssociatedObject(self, @selector(waitForRender), [NSNumber numberWithBool:waitForRender], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    self.getCurrentChild.waitForRender = waitForRender;
 }
 
 @end
