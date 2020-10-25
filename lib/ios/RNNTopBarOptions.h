@@ -5,6 +5,7 @@
 #import "RNNLargeTitleOptions.h"
 #import "RNNOptions.h"
 #import "RNNSearchBarOptions.h"
+#import "RNNScrollEdgeAppearanceOptions.h"
 #import "RNNSubtitleOptions.h"
 #import "RNNTitleOptions.h"
 
@@ -35,6 +36,7 @@
 @property(nonatomic, strong) RNNTitleOptions *title;
 @property(nonatomic, strong) RNNSubtitleOptions *subtitle;
 @property(nonatomic, strong) RNNBackgroundOptions *background;
+@property(nonatomic, strong) RNNScrollEdgeAppearanceOptions *scrollEdgeAppearance;
 @property(nonatomic, strong) RNNBackButtonOptions *backButton;
 @property(nonatomic, strong) RNNButtonOptions *leftButtonStyle;
 @property(nonatomic, strong) RNNButtonOptions *rightButtonStyle;

@@ -10,11 +10,16 @@
 
 - (void)applyOptions:(RNNTopBarOptions *)options {
     [self setTranslucent:[options.background.translucent getWithDefaultValue:NO]];
+    [self setScrollEdgeTranslucent:[options.scrollEdgeAppearance.background.translucent getWithDefaultValue:[options.background.translucent getWithDefaultValue:NO]]];
     [self setBackgroundColor:[options.background.color getWithDefaultValue:nil]];
+    [self setScrollEdgeAppearanceColor:[options.scrollEdgeAppearance.background.color getWithDefaultValue:nil]];
     [self setTitleAttributes:options.title];
     [self setLargeTitleAttributes:options.largeTitle];
     [self showBorder:![options.noBorder getWithDefaultValue:NO]:[options.borderColor getWithDefaultValue:nil]];
     [self setBackButtonOptions:options.backButton];
+    if ([options.scrollEdgeAppearance.active getWithDefaultValue:NO]) {
+        [self updateScrollEdgeAppearance];
+    }
 }
 
 - (void)applyOptionsBeforePopping:(RNNTopBarOptions *)options {
@@ -25,8 +30,28 @@
     [self updateBackgroundAppearance];
 }
 
+- (void)setScrollEdgeTranslucent: (BOOL)translucent {
+    [super setScrollEdgeTranslucent:translucent];
+}
+
 - (void)setTransparent:(BOOL)transparent {
     [self updateBackgroundAppearance];
+}
+
+- (void)updateScrollEdgeAppearance {
+    if (self.scrollEdgeTransparent) {
+        [self.getScrollEdgeAppearance configureWithTransparentBackground];
+    } else if (self.scrollEdgeAppearanceColor) {
+        [self.getScrollEdgeAppearance configureWithOpaqueBackground];
+        [self.getScrollEdgeAppearance setBackgroundColor:self.scrollEdgeAppearanceColor];
+    } else if (self.scrollEdgeTranslucent) {
+        [self.getScrollEdgeAppearance configureWithDefaultBackground];
+    } else {
+        [self.getScrollEdgeAppearance configureWithOpaqueBackground];
+        if (self.backgroundColor) {
+            [self.getScrollEdgeAppearance setBackgroundColor:self.backgroundColor];
+        }
+    }
 }
 
 - (void)updateBackgroundAppearance {

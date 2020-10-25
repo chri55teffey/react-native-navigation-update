@@ -36,6 +36,7 @@
     self.title = [[RNNTitleOptions alloc] initWithDict:dict[@"title"]];
     self.subtitle = [[RNNSubtitleOptions alloc] initWithDict:dict[@"subtitle"]];
     self.background = [[RNNBackgroundOptions alloc] initWithDict:dict[@"background"]];
+    self.scrollEdgeAppearance = [[RNNScrollEdgeAppearanceOptions alloc] initWithDict:dict[@"scrollEdgeAppearance"]];
     self.backButton = [[RNNBackButtonOptions alloc] initWithDict:dict[@"backButton"]];
     self.leftButtonStyle = [[RNNButtonOptions alloc] initWithDict:dict[@"leftButtonStyle"]];
     self.rightButtonStyle = [[RNNButtonOptions alloc] initWithDict:dict[@"rightButtonStyle"]];
