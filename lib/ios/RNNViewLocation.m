@@ -12,8 +12,6 @@
     self.toAngle = [self getViewAngle:toElement];
     self.fromTransform = [self getTransform:fromElement];
     self.toTransform = [self getTransform:toElement];
-    self.toBounds = toElement.layer.bounds;
-    self.fromBounds = fromElement.layer.bounds;
     self.fromCornerRadius =
         fromElement.layer.cornerRadius ?: [self getClippedCornerRadius:fromElement];
     self.toCornerRadius = toElement.layer.cornerRadius ?: [self getClippedCornerRadius:toElement];
@@ -43,11 +41,7 @@
 }
 
 - (CGRect)convertViewFrame:(UIView *)view {
-    CGPoint center = [view.superview convertPoint:view.center toView:nil];
-    CGRect frame =
-        CGRectMake(center.x - view.bounds.size.width / 2, center.y - view.bounds.size.height / 2,
-                   view.bounds.size.width, view.bounds.size.height);
-    return frame;
+    return [view.superview convertRect:view.frame toView:nil];
 }
 
 - (CGFloat)getViewAngle:(UIView *)view {

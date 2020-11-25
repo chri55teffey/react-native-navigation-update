@@ -4,8 +4,6 @@
 
 @property(nonatomic) CGRect fromFrame;
 @property(nonatomic) CGRect toFrame;
-@property(nonatomic) CGRect fromBounds;
-@property(nonatomic) CGRect toBounds;
 @property(nonatomic) CGFloat fromAngle;
 @property(nonatomic) CGFloat toAngle;
 @property(nonatomic) CGFloat fromCornerRadius;
