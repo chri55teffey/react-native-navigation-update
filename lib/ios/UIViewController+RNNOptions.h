@@ -18,6 +18,8 @@
 
 - (void)setSearchBarHiddenWhenScrolling:(BOOL)searchBarHidden;
 
+- (void)setSearchBarVisible:(BOOL)visible;
+
 - (void)setTabBarItemBadgeColor:(UIColor *_Nullable)badgeColor;
 
 - (void)setTabBarItemBadge:(NSString *_Nullable)badge;

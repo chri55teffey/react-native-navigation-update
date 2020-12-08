@@ -130,6 +130,7 @@
         BOOL obscuresBackgroundDuringPresentation =
             [withDefault.topBar.searchBar.obscuresBackgroundDuringPresentation
                 getWithDefaultValue:NO];
+
         BOOL focus = [withDefault.topBar.searchBar.focus getWithDefaultValue:NO];
 
         [viewController setSearchBarWithOptions:[withDefault.topBar.searchBar.placeholder
@@ -142,6 +143,8 @@
                                                      getWithDefaultValue:nil]
                                        tintColor:[options.topBar.searchBar.tintColor
                                                      getWithDefaultValue:nil]];
+    } else {
+        [viewController setSearchBarVisible:NO];
     }
 
     if (options.topBar.drawBehind.hasValue) {
