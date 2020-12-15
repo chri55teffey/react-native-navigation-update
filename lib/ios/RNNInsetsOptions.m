@@ -24,4 +24,11 @@
         self.right = options.right;
 }
 
+- (UIEdgeInsets)edgeInsetsWithDefault:(UIEdgeInsets)defaultInsets {
+    return UIEdgeInsetsMake([self.top getWithDefaultValue:defaultInsets.top],
+                            [self.left getWithDefaultValue:defaultInsets.left],
+                            [self.bottom getWithDefaultValue:defaultInsets.bottom],
+                            [self.right getWithDefaultValue:defaultInsets.right]);
+}
+
 @end
