@@ -17,6 +17,7 @@
 }
 
 - (void)mergeOptions:(ViewAnimationOptions *)options {
+    [super mergeOptions:options];
     if (options.sharedElementTransitions)
         self.sharedElementTransitions = options.sharedElementTransitions;
     if (options.elementTransitions)
