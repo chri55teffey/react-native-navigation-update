@@ -1,6 +1,7 @@
 const shellUtils = require('shell-utils');
 const exec = shellUtils.exec;
 const fs = require('fs');
+const includes = require('lodash/includes');
 
 const docsPath = `${process.cwd()}/website`;
 const docsVersionsJsonPath = `${docsPath}/versions.json`;
@@ -23,7 +24,8 @@ function _removeDocsVersion(version) {
 }
 
 function _versionExists(version) {
-  return version !== '', _readDocsVersionsJson().indexOf(version) > 0;
+  console.log(`check if version exists: ${version}`);
+  return version !== '' && includes(_readDocsVersionsJson(), version);
 }
 
 function _readDocsVersionsJson() {
