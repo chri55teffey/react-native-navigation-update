@@ -40,6 +40,7 @@ import com.reactnativenavigation.utils.UiUtils;
 import com.reactnativenavigation.viewcontrollers.child.ChildControllersRegistry;
 import com.reactnativenavigation.viewcontrollers.stack.topbar.TopBarController;
 import com.reactnativenavigation.viewcontrollers.stack.topbar.button.ButtonController;
+import com.reactnativenavigation.viewcontrollers.stack.topbar.button.ButtonPresenter;
 import com.reactnativenavigation.viewcontrollers.stack.topbar.button.IconResolver;
 import com.reactnativenavigation.viewcontrollers.stack.topbar.title.TitleBarReactViewController;
 import com.reactnativenavigation.viewcontrollers.viewcontroller.ViewController;
@@ -56,6 +57,7 @@ import org.robolectric.annotation.LooperMode;
 import org.robolectric.shadows.ShadowLooper;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -73,10 +75,16 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyDouble;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.validateMockitoUsage;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @LooperMode(LooperMode.Mode.PAUSED)
 public class StackPresenterTest extends BaseTest {
@@ -102,6 +110,8 @@ public class StackPresenterTest extends BaseTest {
     private TopBarController topBarController;
     private ChildControllersRegistry childRegistry;
     private TypefaceLoader typefaceLoader;
+    private IconResolver iconResolver;
+    private TitleBarButtonCreatorMock buttonCreator;
 
     @Override
     public void beforeEach() {
@@ -114,7 +124,9 @@ public class StackPresenterTest extends BaseTest {
         };
         renderChecker = spy(new RenderChecker());
         typefaceLoader = createTypeFaceLoader();
-        uut = spy(new StackPresenter(activity, titleViewCreator, new TopBarBackgroundViewCreatorMock(), new TitleBarButtonCreatorMock(), new IconResolver(activity, ImageLoaderMock.mock()), typefaceLoader, renderChecker, new Options()));
+        iconResolver = new IconResolver(activity, ImageLoaderMock.mock());
+        buttonCreator = new TitleBarButtonCreatorMock();
+        uut = spy(new StackPresenter(activity, titleViewCreator, new TopBarBackgroundViewCreatorMock(), buttonCreator, iconResolver, typefaceLoader, renderChecker, new Options()));
         createTopBarController();
 
         parent = TestUtils.newStackController(activity)
@@ -601,6 +613,7 @@ public class StackPresenterTest extends BaseTest {
         assertThat(leftCaptor.getValue().get(0)).isNotEqualTo(leftButton);
     }
 
+
     @Test
     public void applyTopBarOptions_backgroundComponentIsCreatedOnceIfNameAndIdAreEqual() {
         Options o = new Options();
@@ -612,6 +625,69 @@ public class StackPresenterTest extends BaseTest {
 
         uut.applyChildOptions(o, parent, Mocks.viewController());
         assertThat(uut.getBackgroundComponents().size()).isOne();
+    }
+
+    @Test
+    public void mergeChildOptions_applyTopBarButtonsColor() {
+        Options mergeOptions = new Options();
+        Options initialOptions = new Options();
+        ButtonOptions rightButton = new ButtonOptions();
+        ButtonOptions leftButton = new ButtonOptions();
+        initialOptions.topBar.buttons.right = new ArrayList<>(Arrays.asList(rightButton));
+        initialOptions.topBar.buttons.left = new ArrayList<>(Arrays.asList(leftButton));
+
+        //add buttons
+        uut.applyChildOptions(initialOptions, parent, child);
+
+        //Merge color change for right and left buttons
+        mergeOptions.topBar.rightButtonColor = new Colour(100);
+        mergeOptions.topBar.leftButtonColor = new Colour(10);
+        ButtonController rightController = spy(new ButtonController(activity, new ButtonPresenter(activity, rightButton, iconResolver), rightButton, buttonCreator, buttonId -> {
+        }));
+        ButtonController leftController = spy(new ButtonController(activity, new ButtonPresenter(activity, leftButton, iconResolver), leftButton, buttonCreator, buttonId -> {
+        }));
+        
+        uut.setComponentsButtonController(child.getView(), rightController, leftController);
+        uut.mergeChildOptions(mergeOptions, initialOptions, parent, child);
+
+        ArgumentCaptor<Colour> rightColorCaptor = ArgumentCaptor.forClass(Colour.class);
+        verify(rightController, times(1)).applyColor(any(), rightColorCaptor.capture());
+        assertThat(rightColorCaptor.getAllValues().get(0)).isEqualTo(mergeOptions.topBar.rightButtonColor);
+
+        ArgumentCaptor<Colour> leftColorCaptor = ArgumentCaptor.forClass(Colour.class);
+        verify(leftController, times(1)).applyColor(any(), leftColorCaptor.capture());
+        assertThat(leftColorCaptor.getAllValues().get(0)).isEqualTo(mergeOptions.topBar.leftButtonColor);
+    }
+
+    @Test
+    public void mergeChildOptions_applyTopBarButtonsDisabledColor() {
+        Options mergeOptions = new Options();
+        Options initialOptions = new Options();
+        ButtonOptions rightButton = new ButtonOptions();
+        ButtonOptions leftButton = new ButtonOptions();
+        initialOptions.topBar.buttons.right = new ArrayList<>(Arrays.asList(rightButton));
+        initialOptions.topBar.buttons.left = new ArrayList<>(Arrays.asList(leftButton));
+
+        //add buttons
+        uut.applyChildOptions(initialOptions, parent, child);
+
+        //Merge color change for right and left buttons
+        mergeOptions.topBar.rightButtonDisabledColor = new Colour(100);
+        mergeOptions.topBar.leftButtonDisabledColor = new Colour(10);
+        ButtonController rightController = spy(new ButtonController(activity, new ButtonPresenter(activity, rightButton, iconResolver), rightButton, buttonCreator, buttonId -> {
+        }));
+        ButtonController leftController = spy(new ButtonController(activity, new ButtonPresenter(activity, leftButton, iconResolver), leftButton, buttonCreator, buttonId -> {
+        }));
+        uut.setComponentsButtonController(child.getView(), rightController, leftController);
+        uut.mergeChildOptions(mergeOptions, initialOptions, parent, child);
+
+        ArgumentCaptor<Colour> rightColorCaptor = ArgumentCaptor.forClass(Colour.class);
+        verify(rightController, times(1)).applyDisabledColor(any(), rightColorCaptor.capture());
+        assertThat(rightColorCaptor.getAllValues().get(0)).isEqualTo(mergeOptions.topBar.rightButtonDisabledColor);
+
+        ArgumentCaptor<Colour> leftColorCaptor = ArgumentCaptor.forClass(Colour.class);
+        verify(leftController, times(1)).applyDisabledColor(any(), leftColorCaptor.capture());
+        assertThat(leftColorCaptor.getAllValues().get(0)).isEqualTo(mergeOptions.topBar.leftButtonDisabledColor);
     }
 
     @Test
@@ -793,18 +869,18 @@ public class StackPresenterTest extends BaseTest {
     @Test
     public void applyChildOptions_shouldNotChangeTopMargin() {
         Options options = new Options();
-        ((ViewGroup.MarginLayoutParams)topBar.getLayoutParams()).topMargin = 20;
+        ((ViewGroup.MarginLayoutParams) topBar.getLayoutParams()).topMargin = 20;
         uut.applyChildOptions(options, parent, child);
-        assertThat(((ViewGroup.MarginLayoutParams)topBar.getLayoutParams()).topMargin).isEqualTo(20);
+        assertThat(((ViewGroup.MarginLayoutParams) topBar.getLayoutParams()).topMargin).isEqualTo(20);
     }
 
     @Test
     public void applyChildOptions_shouldChangeTopMargin() {
         Options options = new Options();
-        ((ViewGroup.MarginLayoutParams)topBar.getLayoutParams()).topMargin = 20;
+        ((ViewGroup.MarginLayoutParams) topBar.getLayoutParams()).topMargin = 20;
         options.topBar.topMargin = new Number(10);
         uut.applyChildOptions(options, parent, child);
-        assertThat(((ViewGroup.MarginLayoutParams)topBar.getLayoutParams()).topMargin).isEqualTo(10);
+        assertThat(((ViewGroup.MarginLayoutParams) topBar.getLayoutParams()).topMargin).isEqualTo(10);
     }
 
     private void assertTopBarOptions(Options options, int t) {

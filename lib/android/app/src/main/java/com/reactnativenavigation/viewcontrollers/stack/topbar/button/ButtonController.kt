@@ -7,8 +7,8 @@ import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
 import com.reactnativenavigation.options.Options
 import com.reactnativenavigation.options.ButtonOptions
+import com.reactnativenavigation.options.params.Colour
 import com.reactnativenavigation.react.events.ComponentType
-import com.reactnativenavigation.utils.Functions
 import com.reactnativenavigation.viewcontrollers.viewcontroller.ViewController
 import com.reactnativenavigation.viewcontrollers.viewcontroller.YellowBoxDelegate
 import com.reactnativenavigation.viewcontrollers.viewcontroller.overlay.ViewControllerOverlay
@@ -16,11 +16,11 @@ import com.reactnativenavigation.views.stack.topbar.titlebar.TitleBar
 import com.reactnativenavigation.views.stack.topbar.titlebar.TitleBarButtonCreator
 import com.reactnativenavigation.views.stack.topbar.titlebar.TitleBarReactButtonView
 
-class ButtonController(activity: Activity,
-                       private val presenter: ButtonPresenter,
-                       val button: ButtonOptions,
-                       private val viewCreator: TitleBarButtonCreator,
-                       private val onPressListener: OnClickListener) : ViewController<TitleBarReactButtonView>(activity, button.id, YellowBoxDelegate(activity), Options(), ViewControllerOverlay(activity)), MenuItem.OnMenuItemClickListener {
+open class ButtonController(activity: Activity,
+                            private val presenter: ButtonPresenter,
+                            val button: ButtonOptions,
+                            private val viewCreator: TitleBarButtonCreator,
+                            private val onPressListener: OnClickListener) : ViewController<TitleBarReactButtonView>(activity, button.id, YellowBoxDelegate(activity), Options(), ViewControllerOverlay(activity)), MenuItem.OnMenuItemClickListener {
 
     private var menuItem: MenuItem? = null
 
@@ -75,6 +75,11 @@ class ButtonController(activity: Activity,
             onPressListener.onPress(it)
         }
     }
+
+    open fun applyColor(toolbar: Toolbar, color: Colour) = this.menuItem?.let { presenter.applyColor(toolbar, it, color) }
+
+    open fun applyDisabledColor(toolbar: Toolbar, disabledColour: Colour) = this.menuItem?.let { presenter.applyDisabledColor(toolbar, it, disabledColour) }
+
     fun addToMenu(toolbar: TitleBar, order: Int) {
         if (button.component.hasValue() && toolbar.containsButton(menuItem, order)) return
         toolbar.menu.removeItem(button.intId)

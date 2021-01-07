@@ -244,7 +244,7 @@ public class StackPresenter {
     private View findBackgroundComponent(ComponentOptions component) {
         for (TopBarBackgroundViewController controller : backgroundControllers.values()) {
             if (ObjectUtils.equalsNotNull(controller.getComponent().name.get(null), component.name.get(null)) &&
-                ObjectUtils.equalsNotNull(controller.getComponent().componentId.get(null), component.componentId.get(null))) {
+                    ObjectUtils.equalsNotNull(controller.getComponent().componentId.get(null), component.componentId.get(null))) {
                 return controller.getView();
             }
         }
@@ -362,7 +362,7 @@ public class StackPresenter {
     public void mergeChildOptions(Options toMerge, Options resolvedOptions, StackController stack, ViewController child) {
         TopBarOptions topBar = toMerge.copy().topBar.mergeWithDefault(resolvedOptions.topBar).mergeWithDefault(defaultOptions.topBar);
         mergeOrientation(toMerge.layout.orientation);
-        mergeButtons(topBar, toMerge.topBar.buttons, child.getView());
+        mergeButtons(topBar, toMerge.topBar, child.getView());
         mergeTopBarOptions(topBar, toMerge, stack, child);
         mergeTopTabsOptions(toMerge.topTabs);
         mergeTopTabOptions(toMerge.topTabOptions);
@@ -372,10 +372,30 @@ public class StackPresenter {
         if (orientationOptions.hasValue()) applyOrientation(orientationOptions);
     }
 
-    private void mergeButtons(TopBarOptions options, TopBarButtons buttons, View child) {
-        mergeRightButtons(options, buttons, child);
-        mergeLeftButton(options, buttons, child);
-        mergeBackButton(buttons);
+    private void mergeButtons(TopBarOptions options, TopBarOptions optionsToMerge, View child) {
+        mergeRightButtons(options, optionsToMerge.buttons, child);
+        mergeLeftButton(options, optionsToMerge.buttons, child);
+        mergeLeftButtonsColor(child, optionsToMerge.leftButtonColor, optionsToMerge.leftButtonDisabledColor);
+        mergeRightButtonsColor(child, optionsToMerge.rightButtonColor, optionsToMerge.rightButtonDisabledColor);
+        mergeBackButton(optionsToMerge.buttons);
+    }
+
+    private void mergeLeftButtonsColor(View child, Colour color, Colour disabledColor) {
+        if (color.hasValue() || disabledColor.hasValue()) {
+            forEach(componentLeftButtons.get(child).values(), (btnController) -> {
+                if (color.hasValue()) btnController.applyColor(topBarController.getView().getLeftButtonsBar(), color);
+                if (disabledColor.hasValue()) btnController.applyDisabledColor(topBarController.getView().getLeftButtonsBar(), disabledColor);
+            });
+        }
+    }
+
+    private void mergeRightButtonsColor(View child, Colour color, Colour disabledColor) {
+        if (color.hasValue() || disabledColor.hasValue()) {
+            forEach(componentRightButtons.get(child).values(), (btnController) -> {
+                if (color.hasValue()) btnController.applyColor(topBarController.getView().getTitleBar(), color);
+                if (disabledColor.hasValue()) btnController.applyDisabledColor(topBarController.getView().getTitleBar(), disabledColor);
+            });
+        }
     }
 
     private void mergeRightButtons(TopBarOptions options, TopBarButtons buttons, View child) {
@@ -505,7 +525,7 @@ public class StackPresenter {
     private TitleBarReactViewController findTitleComponent(ComponentOptions component) {
         for (TitleBarReactViewController controller : titleControllers.values()) {
             if (ObjectUtils.equalsNotNull(controller.getComponent().name.get(null), component.name.get(null)) &&
-                ObjectUtils.equalsNotNull(controller.getComponent().componentId.get(null), component.componentId.get(null))) {
+                    ObjectUtils.equalsNotNull(controller.getComponent().componentId.get(null), component.componentId.get(null))) {
                 return controller;
             }
         }
@@ -546,6 +566,13 @@ public class StackPresenter {
     public List<ButtonController> getComponentButtons(View child, List<ButtonController> defaultValue) {
         return merge(getRightButtons(child), getLeftButtons(child), defaultValue);
     }
+
+    @RestrictTo(RestrictTo.Scope.TESTS)
+    public void setComponentsButtonController(View child, ButtonController rightController, ButtonController leftController) {
+        forEach(componentLeftButtons.get(child).keySet(), (key) -> componentLeftButtons.get(child).put(key, leftController));
+        forEach(componentRightButtons.get(child).keySet(), (key) -> componentRightButtons.get(child).put(key, rightController));
+    }
+
 
     public void applyTopInsets(StackController stack, ViewController child) {
         if (stack.isCurrentChild(child)) applyStatusBarInsets(stack, child);

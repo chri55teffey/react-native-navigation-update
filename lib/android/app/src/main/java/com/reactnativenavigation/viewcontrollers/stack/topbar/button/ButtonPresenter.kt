@@ -1,14 +1,12 @@
 package com.reactnativenavigation.viewcontrollers.stack.topbar.button
 
 import android.content.Context
-import android.content.res.Resources
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.graphics.drawable.Drawable
 import android.text.SpannableString
 import android.text.Spanned
-import android.util.TypedValue
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageButton
@@ -18,6 +16,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.MenuItemCompat
 import androidx.core.view.doOnPreDraw
 import com.reactnativenavigation.options.ButtonOptions
+import com.reactnativenavigation.options.params.Colour
 import com.reactnativenavigation.utils.ArrayUtils
 import com.reactnativenavigation.utils.ImageLoader
 import com.reactnativenavigation.utils.ImageLoadingListenerAdapter
@@ -51,6 +50,22 @@ open class ButtonPresenter(private val context: Context, private val button: But
             applyTestId(it)
             applyTextColor(it)
             applyAllCaps(it)
+        }
+    }
+
+    fun applyColor(toolbar: Toolbar, menuItem: MenuItem, color: Colour) {
+        button.color = color
+        applyIcon(menuItem)
+        applyOptionsDirectlyOnView(toolbar, menuItem) {
+            applyTextColor(it)
+        }
+    }
+
+    fun applyDisabledColor(toolbar: Toolbar, menuItem: MenuItem, disabledColor: Colour) {
+        button.disabledColor = disabledColor
+        applyIcon(menuItem)
+        applyOptionsDirectlyOnView(toolbar, menuItem) {
+            applyTextColor(it)
         }
     }
 
@@ -167,4 +182,6 @@ open class ButtonPresenter(private val context: Context, private val button: But
             }
         }
     }
+
+
 }
