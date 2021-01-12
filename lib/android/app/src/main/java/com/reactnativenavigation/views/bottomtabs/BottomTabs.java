@@ -75,6 +75,7 @@ public class BottomTabs extends AHBottomNavigation {
             onItemCreationEnabled.add(() -> super.setCurrentItem(position, useCallback));
         }
     }
+    
 
     @Override
     public void setTitleState(TitleState titleState) {
@@ -118,7 +119,7 @@ public class BottomTabs extends AHBottomNavigation {
     }
 
     public void setLayoutDirection(LayoutDirection direction) {
-         LinearLayout tabsContainer = findChildByClass(this, LinearLayout.class);
+        LinearLayout tabsContainer = findChildByClass(this, LinearLayout.class);
         if (tabsContainer != null) tabsContainer.setLayoutDirection(direction.get());
     }
 
