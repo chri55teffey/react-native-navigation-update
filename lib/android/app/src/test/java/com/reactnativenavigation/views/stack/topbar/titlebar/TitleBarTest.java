@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.reactnativenavigation.BaseTest;
 import com.reactnativenavigation.TestUtils;
+import com.reactnativenavigation.utils.UiUtils;
 
 import org.junit.Test;
 
@@ -19,6 +20,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import static com.reactnativenavigation.utils.Assertions.assertNotNull;
 import static com.reactnativenavigation.utils.ViewUtils.findChildByClass;
+import static com.reactnativenavigation.views.stack.topbar.titlebar.TitleBar.DEFAULT_LEFT_MARGIN;
 import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.eq;
@@ -72,7 +74,7 @@ public class TitleBarTest extends BaseTest {
     }
 
     @Test
-    public void setComponent_alignedStartAfterMeasure() {
+    public void setComponent_alignedStartAfterMeasureWithDefaultMargin() {
         uut.layout(0, 0, UUT_WIDTH, UUT_HEIGHT);
 
         View component = new View(activity);
@@ -80,11 +82,12 @@ public class TitleBarTest extends BaseTest {
         component.setLayoutParams(new Toolbar.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.START));
         uut.setComponent(component);
         uut.onLayout(true, 0, 0, 0, 0);
-        assertThat(component.getX()).isEqualTo(0);
+        int defaultLeftMarginPx = UiUtils.dpToPx(activity, DEFAULT_LEFT_MARGIN);
+        assertThat(component.getX()).isEqualTo(defaultLeftMarginPx);
     }
 
     @Test
-    public void setComponent_alignedStartRTLAfterMeasure() {
+    public void setComponent_alignedStartRTLAfterMeasureWithDefaultMargin() {
         ViewGroup parent = new FrameLayout(activity);
         parent.layout(0, 0, UUT_WIDTH, UUT_HEIGHT);
         when(uut.getParent()).thenReturn(parent);
@@ -95,7 +98,8 @@ public class TitleBarTest extends BaseTest {
         component.setLayoutParams(new Toolbar.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.START));
         uut.setComponent(component);
         uut.onLayout(true, 0, 0, 0, 0);
-        assertThat(component.getX()).isEqualTo(UUT_WIDTH - COMPONENT_WIDTH);
+        int defaultLeftMarginPx = UiUtils.dpToPx(activity, DEFAULT_LEFT_MARGIN);
+        assertThat(component.getX()).isEqualTo(UUT_WIDTH - COMPONENT_WIDTH - defaultLeftMarginPx);
     }
 
     @Test
