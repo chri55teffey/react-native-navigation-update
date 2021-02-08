@@ -1,12 +1,12 @@
 package com.reactnativenavigation.views.stack.topbar.titlebar
 
 import android.content.Context
-import android.graphics.Color
+import android.view.Gravity
 import android.view.View
+import android.widget.FrameLayout
+import android.widget.RelativeLayout
 import androidx.annotation.ColorInt
 import androidx.annotation.RestrictTo
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.constraintlayout.widget.ConstraintSet
 import com.reactnativenavigation.options.Alignment
 import com.reactnativenavigation.options.FontOptions
 import com.reactnativenavigation.options.params.Colour
@@ -14,65 +14,68 @@ import com.reactnativenavigation.options.parsers.TypefaceLoader
 import com.reactnativenavigation.utils.CompatUtils
 import com.reactnativenavigation.utils.UiUtils
 import com.reactnativenavigation.utils.ViewUtils
-import kotlin.math.roundToInt
+import com.reactnativenavigation.utils.logd
 
 const val DEFAULT_LEFT_MARGIN = 16
 
-class MainToolBar(context: Context) : ConstraintLayout(context) {
+class MainToolBar(context: Context) : RelativeLayout(context) {
 
     private var component: View? = null
+    private val componentViewId = CompatUtils.generateViewId()
+    private var componentViewIdBackup = View.NO_ID
+    private val centerFrameLayout = FrameLayout(context).apply {
+        id = CompatUtils.generateViewId()
+    }
 
     private val titleSubTitleBar = TitleSubTitleLayout(context).apply {
         id = CompatUtils.generateViewId()
-        this.visibility = GONE
     }
 
-    val leftButtonsBar = LeftButtonsBar(context).apply { this.id = CompatUtils.generateViewId() }
-    val rightButtonsBar: RightButtonsBar = RightButtonsBar(context).apply { this.id = CompatUtils.generateViewId() }
-
-    private val titleBarContentLayoutParams = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT).apply {
-        this.startToEnd = leftButtonsBar.id
-        this.endToStart = rightButtonsBar.id
-        this.topToTop = ConstraintSet.PARENT_ID
-        this.bottomToBottom = ConstraintSet.PARENT_ID
-        this.verticalBias = 0.5f
-        this.horizontalBias = 0f
-        this.marginStart = UiUtils.dpToPx(context, DEFAULT_LEFT_MARGIN)
+    val leftButtonsBar = LeftButtonsBar(context).apply {
+        this.id = CompatUtils.generateViewId()
+    }
+    val rightButtonsBar: RightButtonsBar = RightButtonsBar(context).apply {
+        this.id = CompatUtils.generateViewId()
     }
 
     init {
-        this.addView(leftButtonsBar, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
-        this.addView(titleSubTitleBar, this.titleBarContentLayoutParams)
-        this.addView(rightButtonsBar, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
-
-        val constraintSet = ConstraintSet().also { it.clone(this) }
-
-        constraintSet.setHorizontalBias(leftButtonsBar.id, 0f)
-        constraintSet.setHorizontalBias(rightButtonsBar.id, 0f)
-
-        constraintSet.constrainMaxWidth(leftButtonsBar.id, (UiUtils.getWindowWidth(context) / 2f).roundToInt())
-        constraintSet.constrainMaxWidth(rightButtonsBar.id, (UiUtils.getWindowWidth(context) / 2f).roundToInt())
-
-        constraintSet.connect(leftButtonsBar.id, ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START)
-        constraintSet.connect(leftButtonsBar.id, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM)
-        constraintSet.connect(leftButtonsBar.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
-
-        constraintSet.connect(rightButtonsBar.id, ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END)
-        constraintSet.connect(rightButtonsBar.id, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM)
-        constraintSet.connect(rightButtonsBar.id, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
-
-        constraintSet.applyTo(this)
+        this.addView(leftButtonsBar, LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT).apply {
+            addRule(ALIGN_PARENT_START)
+            addRule(CENTER_VERTICAL)
+        })
+        this.addView(titleSubTitleBar, LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT).apply {
+            addRule(END_OF, leftButtonsBar.id)
+            addRule(START_OF, rightButtonsBar.id)
+            addRule(CENTER_VERTICAL)
+            marginStart = UiUtils.dpToPx(context, DEFAULT_LEFT_MARGIN)
+        })
+        this.addView(centerFrameLayout, LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT))
+        this.addView(rightButtonsBar, LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT).apply {
+            addRule(ALIGN_PARENT_END)
+            addRule(CENTER_VERTICAL)
+        })
     }
 
-    fun setComponent(component: View) {
+
+    fun setComponent(component: View, alignment: Alignment = Alignment.Default) {
+        logd("setComponent with this.component:$${this.component?.id ?: -999}, newComponent:${component.id}, alignment:${alignment}")
         if (this.component == component) return
         clear()
         this.component = component
-        this.component?.layoutParams = titleBarContentLayoutParams
-        if (component.id == View.NO_ID) {
-            component.id = CompatUtils.generateViewId()
+        this.componentViewIdBackup = this.component?.id ?: View.NO_ID
+        this.component?.id = componentViewId
+        if (alignment == Alignment.Center) {
+            this.centerFrameLayout.addView(this.component, FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT).apply {
+                this.gravity = Gravity.CENTER
+            })
+        } else {
+            this.addView(this.component, LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT).apply {
+                addRule(END_OF, leftButtonsBar.id)
+                addRule(START_OF, rightButtonsBar.id)
+                addRule(CENTER_VERTICAL)
+                marginStart = UiUtils.dpToPx(context, DEFAULT_LEFT_MARGIN)
+            })
         }
-        this.addView(component)
     }
 
     fun setTitle(title: CharSequence?) {
@@ -88,20 +91,26 @@ class MainToolBar(context: Context) : ConstraintLayout(context) {
     }
 
     fun setTitleBarAlignment(alignment: Alignment) {
-        val constraintSet = ConstraintSet().also { it.clone(this) }
-        val bias = if (alignment == Alignment.Center) 0.5f else 0f;
-        val margin = if (alignment == Alignment.Center) 0 else UiUtils.dpToPx(context, DEFAULT_LEFT_MARGIN)
-        val startToEndId = if (alignment == Alignment.Center) ConstraintSet.PARENT_ID else leftButtonsBar.id
-        val startEndSide = if (alignment == Alignment.Center) ConstraintSet.START else ConstraintSet.END
-        val endToStartId = if (alignment == Alignment.Center) ConstraintSet.PARENT_ID else rightButtonsBar.id
-        val endStartSide = if (alignment == Alignment.Center) ConstraintSet.END else ConstraintSet.START
+        logd("setTitleBarAlignment $alignment on ${if (this.component == null) "titleSubTitle" else "component"} $id")
+        this.titleSubTitleBar.layoutParams = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT).apply {
+            if (alignment != Alignment.Center) {
+                addRule(END_OF, leftButtonsBar.id)
+                addRule(START_OF, rightButtonsBar.id)
+                addRule(CENTER_VERTICAL)
+                marginStart = UiUtils.dpToPx(context, DEFAULT_LEFT_MARGIN)
+            } else {
+                marginStart = 0
+                addRule(CENTER_IN_PARENT, TRUE)
+            }
+        }
 
-        constraintSet.connect(getTitleComponent().id, ConstraintSet.START, startToEndId, startEndSide)
-        constraintSet.connect(getTitleComponent().id, ConstraintSet.END, endToStartId, endStartSide)
-        constraintSet.setHorizontalBias(this.getTitleComponent().id, bias)
-        constraintSet.setMargin(this.getTitleComponent().id, ConstraintSet.START, margin)
+    }
 
-        constraintSet.applyTo(this)
+    override fun setLayoutDirection(layoutDirection: Int) {
+        this.titleSubTitleBar.layoutDirection = layoutDirection
+        this.rightButtonsBar.layoutDirection = layoutDirection
+        this.leftButtonsBar.layoutDirection = layoutDirection
+        super.setLayoutDirection(layoutDirection)
     }
 
     fun setSubTitleTextAlignment(alignment: Alignment) = this.titleSubTitleBar.setSubTitleAlignment(alignment)
@@ -149,18 +158,18 @@ class MainToolBar(context: Context) : ConstraintLayout(context) {
     }
 
     fun clear() {
-        //clearing title and sub title
         if (this.childCount > 0 && this.component == null) {
-            this.titleSubTitleBar.clear()
-            this.titleSubTitleBar.visibility = View.GONE
+            this.titleSubTitleBar.visibility = View.INVISIBLE
         }
         clearComponent()
     }
 
-    private fun clearComponent() = this.component?.let { ViewUtils.removeFromParent(it); this.component = null }
+
+    private fun clearComponent() = this.component?.let { it.id = View.NO_ID; ViewUtils.removeFromParent(it); this.component = null; }
 
     @RestrictTo(RestrictTo.Scope.TESTS, RestrictTo.Scope.LIBRARY)
     fun getTitleComponent() = this.component ?: this.titleSubTitleBar
+
 
     @RestrictTo(RestrictTo.Scope.TESTS)
     fun getComponent() = this.component
