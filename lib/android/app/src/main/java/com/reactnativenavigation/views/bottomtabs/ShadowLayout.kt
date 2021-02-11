@@ -43,6 +43,7 @@ open class ShadowLayout constructor(context: Context) : FrameLayout(context) {
     var isShadowed: Boolean = false
         set(isShadowed) {
             field = isShadowed
+            this.updatePadding()
             postInvalidate()
         }
 
@@ -75,9 +76,13 @@ open class ShadowLayout constructor(context: Context) : FrameLayout(context) {
     private fun resetShadow() {
         shadowDx = (shadowDistance * cos(shadowAngle / 180.0f * Math.PI)).toFloat()
         shadowDy = (shadowDistance * sin(shadowAngle / 180.0f * Math.PI)).toFloat()
-        val padding = (shadowDistance + shadowRadius).toInt()
-        setPadding(0, padding, 0, 0)
+        updatePadding()
         requestLayout()
+    }
+
+    private fun updatePadding() {
+        val padding = if (isShadowed) (shadowDistance + shadowRadius).toInt() else 0
+        setPadding(0, padding, 0, 0)
     }
 
     private fun adjustShadowAlpha(adjust: Boolean): Int {
