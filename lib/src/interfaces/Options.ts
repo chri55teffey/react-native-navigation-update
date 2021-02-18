@@ -327,7 +327,6 @@ export interface OptionsTopBarBackButton {
   accessibilityLabel?: string;
   /**
    * Button id for reference press event
-   * #### (Android specific)
    */
   id?: string;
   /**
@@ -387,6 +386,26 @@ export interface OptionsTopBarBackButton {
    * #### (iOS specific)
    */
   displayMode?: 'default' | 'generic' | 'minimal';
+  /**
+   * Controls whether the default back button should pop the Stack or not
+   * @default true
+   */
+  popStackOnPress?: boolean;
+}
+
+export interface HardwareBackButtonOptions {
+  /**
+   * Controls whether the hardware back button should dismiss modal or not
+   * #### (Android specific)
+   * @default true
+   */
+  dismissModalOnPress?: boolean;
+  /**
+   * Controls whether the hardware back button should pop the Stack or not
+   * #### (Android specific)
+   * @default true
+   */
+  popStackOnPress?: boolean;
 }
 
 export interface OptionsTopBarScrollEdgeAppearanceBackground {
@@ -752,7 +771,7 @@ export interface OptionsBottomTabs {
    */
   animate?: boolean;
   /**
-   * Controls wether tab selection is animated or not
+   * Controls whether tab selection is animated or not
    * #### (android specific)
    * @default true
    */
@@ -1022,7 +1041,7 @@ export interface OverlayOptions {
    */
   interceptTouchOutside?: boolean;
   /**
-   * Control wether this Overlay should handle Keyboard events.
+   * Control whether this Overlay should handle Keyboard events.
    * Set this to true if your Overlay contains a TextInput.
    */
   handleKeyboardEvents?: boolean;
@@ -1030,7 +1049,7 @@ export interface OverlayOptions {
 
 export interface ModalOptions {
   /**
-   * Control wether this modal should be dismiss using swipe gesture when the modalPresentationStyle = 'pageSheet'
+   * Control whether this modal should be dismiss using swipe gesture when the modalPresentationStyle = 'pageSheet'
    * #### (iOS specific)
    */
   swipeToDismiss?: boolean;
@@ -1402,6 +1421,11 @@ setRoot: {
    * Configure Android's NavigationBar
    */
   navigationBar?: NavigationBarOptions;
+
+  /**
+   * Android Hardware Back button configuration
+   */
+  hardwareBackButton?: HardwareBackButtonOptions;
 
   /**
    * Preview configuration for Peek and Pop

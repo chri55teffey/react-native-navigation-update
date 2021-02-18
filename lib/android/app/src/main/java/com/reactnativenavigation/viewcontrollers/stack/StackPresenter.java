@@ -547,6 +547,10 @@ public class StackPresenter {
         return new Toolbar.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, component.alignment == Alignment.Center ? Gravity.CENTER : Gravity.START);
     }
 
+    public boolean shouldPopOnHardwareButtonPress(ViewController viewController) {
+        return viewController.resolveCurrentOptions().hardwareBack.popStackOnPress.get(true);
+    }
+
     @RestrictTo(RestrictTo.Scope.TESTS)
     public Map<View, TitleBarReactViewController> getTitleComponents() {
         return titleControllers;
