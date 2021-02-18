@@ -85,6 +85,17 @@
     return self.icon.hasValue && (self.iconBackground.hasValue || self.iconInsets.hasValue);
 }
 
+- (BOOL)isEnabled {
+    return [self.enabled withDefault:YES];
+}
+
+- (UIColor *)resolveColor {
+    if (![_enabled withDefault:YES] && _disabledColor.hasValue)
+        return _disabledColor.get;
+    else
+        return [_color withDefault:nil];
+}
+
 - (RNNButtonOptions *)withDefault:(RNNButtonOptions *)defaultOptions {
     if (!defaultOptions)
         return self;
@@ -99,13 +110,6 @@
     if (!self.disabledColor.hasValue)
         self.disabledColor = disabledColor;
     return self;
-}
-
-- (Color *)color {
-    if (![_enabled withDefault:YES] && _disabledColor.hasValue)
-        return _disabledColor;
-    else
-        return _color;
 }
 
 @end
