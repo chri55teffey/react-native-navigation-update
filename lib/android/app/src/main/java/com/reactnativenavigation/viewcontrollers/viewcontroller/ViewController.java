@@ -60,7 +60,6 @@ public abstract class ViewController<T extends ViewGroup> implements ViewTreeObs
 
     private final Activity activity;
     private final String id;
-    private int viewIdTracker = View.NO_ID;
     private final YellowBoxDelegate yellowBoxDelegate;
     @Nullable protected T view;
     @Nullable private ParentController<? extends ViewGroup> parentController;
@@ -198,7 +197,6 @@ public abstract class ViewController<T extends ViewGroup> implements ViewTreeObs
                 throw new RuntimeException("Tried to create view after it has already been destroyed");
             }
             view = createView();
-            viewIdTracker = view.getId();
             view.setOnHierarchyChangeListener(this);
             view.getViewTreeObserver().addOnGlobalLayoutListener(this);
         }
@@ -283,7 +281,6 @@ public abstract class ViewController<T extends ViewGroup> implements ViewTreeObs
             if (view.getParent() instanceof ViewGroup) {
                 ((ViewManager) view.getParent()).removeView(view);
             }
-            this.viewIdTracker = view.getId();
             view = null;
             isDestroyed = true;
         }
@@ -379,8 +376,4 @@ public abstract class ViewController<T extends ViewGroup> implements ViewTreeObs
         return perform(parentController, 0, p -> p.getBottomInset(this));
     }
 
-    @RestrictTo(RestrictTo.Scope.TESTS)
-    final public int getViewIdTracker(){
-        return viewIdTracker;
-    }
 }
