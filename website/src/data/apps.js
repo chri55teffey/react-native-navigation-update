@@ -73,6 +73,14 @@ const apps = [
     appStore: 'https://apps.apple.com/zw/app/nox-ai-powered-dream-journal/id1543257201',
   },
   {
+    title: 'Obitrain',
+    description:
+      'Create your own exercises and training sessions, track your progress and share it with your community.',
+    image: require('./showcase/obitrain.png'),
+    playStore: 'https://play.google.com/store/apps/details?id=com.obitrain.obiapp',
+    appStore: 'https://apps.apple.com/us/app/obitrain/id1462514186',
+  },
+  {
     title: 'Arkham Cards',
     description: 'Create and manage deck lists for the Arkham Horror LCG card game.',
     image: require('./showcase/arkhamCards.png'),
@@ -128,13 +136,6 @@ const apps = [
     description: 'StretchMinder helps to increase productivity while keeping your health in check.',
     image: require('./showcase/stretchminder.png'),
     appStore: 'https://apps.apple.com/us/app/stretchminder-stand-up-move/id1518522560',
-  },
-  {
-    title: 'Obitrain',
-    description:
-      'Create your own exercises and training sessions, track your progress and share it with your community.',
-    image: require('./showcase/obitrain.png'),
-    playStore: 'https://play.google.com/store/apps/details?id=com.obitrain.obiapp',
   },
   {
     title: 'Подарки и Одежда на Новый Го‪д‬',
