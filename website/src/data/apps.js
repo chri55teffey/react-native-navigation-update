@@ -52,6 +52,13 @@ const apps = [
     appStore: 'https://apps.apple.com/us/app/acuity-schedule-admin/id1179146771',
   },
   {
+    title: 'Cookomix',
+    description: `Cookomix est une application d'échange de recettes adaptées au Thermomix ®. Découvrez-y les meilleures recettes Thermomix ® écrites et commentées par la communauté et présentées de manière simple et lisible comme sur votre sur votre appareil !`,
+    image: require('./showcase/cookomix.png'),
+    playStore: 'https://play.google.com/store/apps/details?id=com.cookomix.mobile',
+    appStore: 'https://itunes.apple.com/fr/app/cookomix/id1353826313',
+  },
+  {
     title: 'Nifty',
     description: `Nifty helps you simplify your teams’ workflow by consolidating all phases of your project's lifecycle into one powerful and intuitive tool.`,
     image: require('./showcase/nifty.png'),
