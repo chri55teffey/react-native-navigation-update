@@ -35,6 +35,7 @@ import org.json.JSONObject
 import org.junit.Ignore
 import org.junit.Test
 import org.robolectric.Robolectric
+import org.robolectric.android.controller.ActivityController
 import org.robolectric.shadows.ShadowLooper
 import java.util.*
 import kotlin.test.fail
@@ -191,6 +192,16 @@ class StackControllerTest : BaseTest() {
         child1.options.topBar.buttons.left = ArrayList()
         uut.push(child1, CommandListenerAdapter())
         verify(child1, never()).mergeOptions(any())
+    }
+
+    @Test
+    fun setRoot_pushDuringSetRootAnimationShouldNotCrash() {
+        uut.push(child1, CommandListenerAdapter())
+        uut.push(child2, CommandListenerAdapter())
+
+        uut.setRoot(listOf(child1), CommandListenerAdapter())
+        uut.push(child3, CommandListenerAdapter())
+        assertThat(uut.currentChild).isEqualTo(child3)
     }
 
     @Test
