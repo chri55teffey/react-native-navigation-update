@@ -23,7 +23,7 @@ import com.reactnativenavigation.viewcontrollers.navigator.Navigator;
 import static android.view.WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
 
 public class Presenter {
-    private Activity activity;
+    private final Activity activity;
     private Options defaultOptions;
 
     public Presenter(Activity activity, Options defaultOptions) {
@@ -111,11 +111,6 @@ public class Presenter {
         decorView.setSystemUiVisibility(flags);
     }
 
-    private int getStatusBarBackgroundColor(StatusBarOptions statusBar) {
-        int defaultColor = statusBar.visible.isTrueOrUndefined() ? Color.BLACK : Color.TRANSPARENT;
-        return statusBar.backgroundColor.get(defaultColor);
-    }
-
     private void setStatusBarBackgroundColor(StatusBarOptions statusBar) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && statusBar.backgroundColor.canApplyValue()) {
             activity.getWindow().setStatusBarColor(getStatusBarBackgroundColor(statusBar));
@@ -129,8 +124,12 @@ public class Presenter {
             return false;
         }
 
-        int backgroundColor = getStatusBarBackgroundColor(statusBar);
-        return isColorLight(backgroundColor);
+        return isColorLight(getStatusBarBackgroundColor(statusBar));
+    }
+
+    private int getStatusBarBackgroundColor(StatusBarOptions statusBar) {
+        int defaultColor = statusBar.visible.isTrueOrUndefined() ? Color.BLACK : Color.TRANSPARENT;
+        return statusBar.backgroundColor.get(defaultColor);
     }
 
     private void setTextColorScheme(StatusBarOptions statusBar) {
