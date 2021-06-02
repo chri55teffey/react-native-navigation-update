@@ -59,11 +59,26 @@ const apps = [
     appStore: 'https://itunes.apple.com/fr/app/cookomix/id1353826313',
   },
   {
+    title: 'getAbstract Book Summaries',
+    description:
+      'Get the key insights from 20,000+ of the best nonfiction books, articles and video talks summarized into 10-minute summaries.',
+    image: require('./showcase/getAbstract.png'),
+    playStore: 'https://play.google.com/store/apps/details?id=com.soxes.getAbstract&hl=en&gl=US',
+    appStore: 'https://apps.apple.com/us/app/getabstract-book-summaries/id338552990',
+  },
+  {
     title: 'Nifty',
     description: `Nifty helps you simplify your teams’ workflow by consolidating all phases of your project's lifecycle into one powerful and intuitive tool.`,
     image: require('./showcase/nifty.png'),
     playStore: 'https://play.google.com/store/apps/details?id=com.niftypm',
     appStore: 'https://apps.apple.com/us/app/nifty-manage-projects-tasks/id1366408429',
+  },
+  {
+    title: 'HoneyBook',
+    description: `HoneyBook helps you get the client you really want. Reply to questions quickly, send professional invoices, contracts, quotes and brochures. Manage your clients and grow your business.`,
+    image: require('./showcase/honeybook.png'),
+    playStore: 'https://play.google.com/store/apps/details?id=com.honeybook.alfred',
+    appStore: 'https://apps.apple.com/il/app/honeybook-small-business-crm/id1104772757',
   },
   {
     title: 'Clubhouse',
