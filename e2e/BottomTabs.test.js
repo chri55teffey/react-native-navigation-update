@@ -33,7 +33,7 @@ describe('BottomTabs', () => {
     await expect(element(by.text('NEW'))).toBeVisible();
   });
 
-  it.only('Badge not cleared after showing/dismissing modal', async () => {
+  it('Badge not cleared after showing/dismissing modal', async () => {
     await elementById(TestIDs.SECOND_TAB_BAR_BTN).tap();
     await elementById(TestIDs.SET_BADGE_BTN).tap();
     await expect(element(by.text('Badge'))).toBeVisible();
