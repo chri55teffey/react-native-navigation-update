@@ -2,3 +2,4 @@ steps:
   - label: ":android: some step"
     command: 
       - "npm install"
+      - "sleep 99999"
