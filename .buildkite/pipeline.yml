@@ -1,6 +1,4 @@
 steps:
   - label: ":android: some step"
     command: 
-      - "sudo su - builder"
-      - "whoami"
       - "npm install"
