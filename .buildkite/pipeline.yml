@@ -5,4 +5,5 @@ steps:
       - "echo 'end of echo'"
       - "sleep 10"
       - "date"
+      - "env"
       - "npm install"
