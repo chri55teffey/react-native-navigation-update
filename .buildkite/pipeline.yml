@@ -1,5 +1,5 @@
 steps:
   - label: ":android: some step"
-    command: 
+    command:
+      - "date"
       - "npm install"
-      - "sleep 99999"
