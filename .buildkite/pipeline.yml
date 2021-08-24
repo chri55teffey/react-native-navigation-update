@@ -2,4 +2,7 @@ steps:
   - label: ":android: some step"
     command:
       - "date"
+      - "echo 'end of echo'"
+      - "sleep 10"
+      - "date"
       - "npm install"
