@@ -1,6 +1,16 @@
+env:
+  CI: true
+  ANDROID_HOME: /usr/local/share/android-sdk
 steps:
-  - label: ":android: some step"
-    command: 
-      - "sudo su - builder"
-      - "whoami"
-      - "npm install"
+  - label: "Android :android:"
+    command:
+    - "npm install"
+    - "npm run clean"
+    - "npm run test-unit-android -- --release"
+    - "npm run test-e2e-android-multi -- --release --headless --verbose --ci"
+         
+  - label: "IOS :ios:"
+    command:
+    - "npm install"
+    - "npm run clean"
+    - "npm run test-e2e-ios -- --release --multi --ci"
