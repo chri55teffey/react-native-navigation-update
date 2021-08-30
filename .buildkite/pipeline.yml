@@ -2,12 +2,12 @@ env:
   CI: true
   ANDROID_HOME: /usr/local/share/android-sdk
 steps:
-#   - label: "Android :android:"
-#     command:
-#     - "npm install"
-#     - "npm run clean"
-#     - "npm run test-unit-android -- --release"
-#     - "npm run test-e2e-android-multi -- --release --headless --verbose --ci"
+   - label: "Android :android:"
+     command:
+     - "npm install"
+     - "npm run clean"
+     - "npm run test-unit-android -- --release"
+     - "npm run test-e2e-android-multi -- --release --headless --verbose --ci"
          
   - label: "IOS :ios:"
     command:
