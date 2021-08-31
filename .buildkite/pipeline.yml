@@ -5,6 +5,7 @@ env:
 steps:
   - label: "Android :android:"
     command:
+    - "env"
     - "npm install"
     - "npm run clean"
     - "npm run test-unit-android -- --release"
