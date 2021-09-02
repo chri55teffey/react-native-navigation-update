@@ -226,14 +226,15 @@ export class NavigationDelegate {
     return this.concreteNavigation.TouchablePreview;
   }
 
-  public mockNativeComponents() {
-    const { NativeCommandsSender } = require('./Mock/mocks/NativeCommandsSender');
-    const { NativeEventsReceiver } = require('./Mock/mocks/NativeEventsReceiver');
-    const { AppRegistryService } = require('./Mock/mocks/AppRegistryService');
+  public mockNativeComponents(
+    mockedNativeCommandsSender: NativeCommandsSender,
+    mockedNativeEventsReceiver: NativeEventsReceiver,
+    mockedAppRegistryService: AppRegistryService
+  ) {
     this.concreteNavigation = this.createConcreteNavigation(
-      new NativeCommandsSender(),
-      new NativeEventsReceiver(),
-      new AppRegistryService()
+      mockedNativeCommandsSender,
+      mockedNativeEventsReceiver,
+      mockedAppRegistryService
     );
   }
 
