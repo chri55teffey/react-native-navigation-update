@@ -123,6 +123,12 @@ export class OptionsProcessor {
         if ('semantic' in value || 'resource_paths' in value) {
           options[key] = value;
           return;
+        } else if ('dynamic' in value) {
+          for (let keyColor in value.dynamic) {
+            newColorObj[keyColor] = this.colorService.toNativeColor(value.dynamic[keyColor]);
+          }
+
+          options[key] = newColorObj;
         } else {
           for (let keyColor in value) {
             newColorObj[keyColor] = this.colorService.toNativeColor(value[keyColor]);
