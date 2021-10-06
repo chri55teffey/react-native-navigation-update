@@ -9,12 +9,11 @@ const docsVersionsJsonPath = `${docsPath}/versions.json`;
 function release(version, removeVersion) {
   console.log(`Building documentation version: ${version}`);
   if (_versionExists(removeVersion)) _removeDocsVersion(removeVersion);
-  exec.execSync(`cd ${docsPath}`);
-  exec.execSync(`current_dir=$PWD`);
-  exec.execSync(`npm install`);
-  exec.execSync(`npx docusaurus docs:version ${version}`);
+  const originalDir = process.cwd();
+  process.chdir(docsPath);
+  exec.execSync(`npm run docusaurus docs:version ${version}`);
   exec.execSync(`git add website`);
-  exec.execSync(`cd $current_dir`);
+  process.chdir(originalDir);
 }
 
 function _removeDocsVersion(version) {
