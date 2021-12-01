@@ -9,9 +9,8 @@ sidebar_label: Image Resource
 ```js
 const options = {
   topBar: {
-    leftButtons: [{
-          icon: require('./backButton.png')
-       }
+    leftButtons: [
+        icon: require('./backButton.png')
     ]
   },
 };
@@ -37,12 +36,11 @@ Example:
 ```js
 const options = {
   topBar: {
-    leftButtons: [{
+    leftButtons: [
         icon: {
             system: 'calendar',
             fallback: require('./calendar.png')
         }
-      }
     ]
   },
 };
