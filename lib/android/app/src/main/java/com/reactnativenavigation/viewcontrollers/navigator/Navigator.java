@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.content.res.Configuration;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowInsets;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RestrictTo;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.view.WindowInsetsCompat;
 
 import com.facebook.react.ReactInstanceManager;
 import com.reactnativenavigation.options.Options;
@@ -82,6 +84,8 @@ public class Navigator extends ParentController<ViewGroup> {
         overlaysLayout = new CoordinatorLayout(getActivity());
     }
 
+
+
     public void bindViews() {
         modalStack.setModalsLayout(modalsLayout);
         modalStack.setRootLayout(rootLayout);
@@ -147,6 +151,7 @@ public class Navigator extends ParentController<ViewGroup> {
         final ViewController<?> disappearing = previousRoot;
         root = appearing;
         root.setOverlay(new RootOverlay(getActivity(), contentLayout));
+        root.setParentController(this);
         rootPresenter.setRoot(appearing, disappearing, defaultOptions, new CommandListenerAdapter(commandListener) {
             @Override
             public void onSuccess(String childId) {
