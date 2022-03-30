@@ -69,8 +69,8 @@ const apps = [
     title: 'Taimi - LGBTQ+ Dating and Chat',
     description: 'World’s Largest LGBTQ+ Platform',
     image: require('./showcase/taimi.png'),
-    playStore: 'https://play.google.com/store/apps/details?id=com.digitail.digitail&hl=en&gl=US',
-    appStore: 'https://apps.apple.com/us/app/digitail-for-pets/id1473042508',
+    playStore: 'https://play.google.com/store/apps/details?id=com.takimi.android&hl=en&gl=US',
+    appStore: 'https://apps.apple.com/us/app/taimi-lgbtq-dating-chat/id1282966364',
   },
   {
     title: 'getAbstract Book Summaries',
